@@ -69,7 +69,7 @@ image_process_tensorflow.py 此程式針對「擁有標籤檔案(**.xml**)」的
     Example:
     input_path = 'Google_Open_ImageV5/'
     output_path = 'Google_Open_ImageV5/Output_DataSet/'
-    DataSet_Folder = ['Hat','Dog']
+    DataSet_Folder = ['Hat_DataSet','Dog_DataSet']
     split_rate = [0.94, 0.04, 0.02]
     
 完成後，請依照Tensorflow Object Detection API 所需數據進行建置
