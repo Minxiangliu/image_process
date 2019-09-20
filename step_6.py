@@ -65,11 +65,16 @@ def create_tf_example(group, path):
 
 
 def run(output_path):
-    folder_ = ['train', 'validation']
 
-    for f in folder_:
-        writer = tf.python_io.TFRecordWriter(output_path+'data/{}.record'.format(f))
+    for f in ['train', 'test', 'validation']:
+        # writer = tf.io.TFRecordWriter(output_path+'data/{}.record'.format(f))
+
         image_path = os.path.join(output_path+'{}/'.format(f))
+
+        if not os.path.exists(image_path):
+            continue
+
+        writer = tf.python_io.TFRecordWriter(output_path+'data/{}.record'.format(f))
         examples = pd.read_csv(output_path+'data/{}_labels.csv'.format(f))
         grouped = split(examples, 'filename')
 

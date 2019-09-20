@@ -33,8 +33,12 @@ def xml_to_csv(output_path):
     output_dir = output_path+'data'
     image_process_tensorflow.check_folder(output_dir)
 
-    for directory in ['train','validation']:
+    for directory in ['train', 'test', 'validation']:
         image_path = os.path.join(output_path, '{}'.format(directory))
+
+        if not os.path.exists(image_path):
+            continue
+
         xml_df = xml_to_csv_pre(image_path)
         xml_df.to_csv(output_path + 'data/{}_labels.csv'.format(directory), index=None)
         print(directory,'folder successfully converted xml to csv.')

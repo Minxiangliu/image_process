@@ -2,7 +2,26 @@ import os
 import numpy as np
 from xml.dom import minidom
 
-folder_ = ['train', 'test', 'validation']
+def check_XML_file(xml_path):
+	dom = minidom.parse(xml_path)
+	root = dom.documentElement
+
+	width = root.getElementsByTagName('width')
+	height = root.getElementsByTagName('height')
+
+	if int(width[0].firstChild.data) == 0 or int(height[0].firstChild.data) == 0:
+		os.remove(xml_path)
+		os.remove(xml_path.split('.xml',1)[0]+'.jpg')
+
+def read_XML_IMG_file(all_file_name):
+	xml = []
+	img = []
+	for l in all_file_name:
+		if l.endswith('xml'):
+			xml.append(l)
+		elif l.endswith('jpg') or l.endswith('JPG') or l.endswith('jpeg') or l.endswith('JPEG') or l.endswith('png') or l.endswith('PNG'):
+			img.append(l)
+	return xml, img
 
 def xml_write(xml_path, img_FileName, folder_new, className):
 	dom = minidom.parse(xml_path)
@@ -12,6 +31,8 @@ def xml_write(xml_path, img_FileName, folder_new, className):
 	filename = root.getElementsByTagName('filename')
 	path = root.getElementsByTagName('path')
 	name = root.getElementsByTagName('name')
+	width = root.getElementsByTagName('width')
+	height = root.getElementsByTagName('height')
 
 	for n in name:
 		index = np.where(className==n.firstChild.data)
@@ -32,18 +53,22 @@ def xml_write(xml_path, img_FileName, folder_new, className):
 def modify_xml(className, output_path):
 	global BoxNumber
 
-	for f in folder_:
-		print()
+
+	for f in ['train', 'test', 'validation']:
 		BoxNumber = np.zeros(len(className), dtype=np.int)
-		xml_file_name = []
-		img_file_name = []
 		path = output_path+f+'/'
+
+		if not os.path.exists(path):
+			continue
+
 		all_file_name = os.listdir(path)
-		for l in all_file_name:
-			if l.endswith('xml'):
-				xml_file_name.append(l)
-			elif l.endswith('jpg') or l.endswith('JPG') or l.endswith('jpeg') or l.endswith('JPEG') or l.endswith('png') or l.endswith('PNG'):
-				img_file_name.append(l)
+		xml_file_name, img_file_name = read_XML_IMG_file(all_file_name)
+
+		for check in xml_file_name:
+			check_XML_file(path+check)
+
+		all_file_name = os.listdir(path)
+		xml_file_name, img_file_name = read_XML_IMG_file(all_file_name)
 
 		for i, x in enumerate(xml_file_name):
 			xml_write(path+x, img_file_name[i], f, className)

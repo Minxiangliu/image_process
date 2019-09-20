@@ -17,7 +17,7 @@ output_path = ''
 DataSet_Folder = ['']
 
 # train, test, validation
-split_rate = [0.94, 0.04, 0.02]
+split_rate = [0.9, 0.1]
 
 def check_folder(folder_path):
 	if os.path.isdir(folder_path):
@@ -47,6 +47,7 @@ if __name__ == '__main__':
 	
 	className = np.array(className , dtype=np.str)
 
+
 	step_1.file_Rename(DataSet_Folder, input_path, className)
 
 	step_2.file_split(DataSet_Folder, input_path, output_path, split_rate)
@@ -58,4 +59,4 @@ if __name__ == '__main__':
 	step_5.xml_to_csv(output_path)
 	
 	step_6.generate_tfrecord(className, output_path)
-
+ 

@@ -2,6 +2,8 @@ import os
 import shutil
 import image_process_tensorflow
 
+import sys
+
 def file_Rename(Folder, input_path, className):
 	for c_i,f in enumerate(Folder):
 		xml_fileName = []
@@ -17,16 +19,17 @@ def file_Rename(Folder, input_path, className):
 		
 		if len(img_fileName) > 0:
 			for i, imgN in enumerate(img_fileName):
-				try:
-					os.rename(path+imgN, path+className[c_i]+'_{}.jpg'.format(i+1))
-				except Exception as e:
-					pass
+				im_out = path+className[c_i]+'_{}.jpg'.format(i+1)
+				if not os.path.isfile(im_out):
+					os.rename(path+imgN, im_out)
+				
+
 		if len(xml_fileName) > 0:
 			for j, xmlN in enumerate(xml_fileName):
-				try:
-					os.rename(path+xmlN, path+className[c_i]+'_{}.xml'.format(j+1))
-				except Exception as e:
-					pass
+				xml_out = path+className[c_i]+'_{}.xml'.format(j+1)
+				if not os.path.isfile(xml_out):
+					os.rename(path+xmlN, xml_out)
+				
 
 		print('Rename folder:',f)
 
