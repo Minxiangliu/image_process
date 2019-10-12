@@ -8,11 +8,11 @@ import transferYOLO
 
 
 # This line need to change your upper layer path of image folder.
-input_path = 'D:/Program/ImageSet/'
+input_path = ''
 # This line is the output path after the data processing is completed.
-output_path = 'D:/Program/ImageSet/outputDataSet_YOLO/'
+output_path = ''
 # This line need to change your original image folder.
-DataSet_Folder = ['macncheese_DataSet']
+DataSet_Folder = ['']
 
 # train, test, validation
 split_rate = [0.9, 0.1]
