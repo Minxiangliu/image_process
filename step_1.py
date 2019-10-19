@@ -1,10 +1,6 @@
 import os
-import shutil
-import image_process_tensorflow
 
-import sys
-
-def file_Rename(Folder, input_path, className):
+def file_Rename(Folder, input_path, className, yolo=False):
 	for c_i,f in enumerate(Folder):
 		xml_fileName = []
 		img_fileName = []
@@ -26,11 +22,13 @@ def file_Rename(Folder, input_path, className):
 
 		if len(xml_fileName) > 0:
 			for j, xmlN in enumerate(xml_fileName):
-				xml_out = path+className[c_i]+'_{}.xml'.format(j+1)
+				if yolo:
+					xml_out = path+className[c_i]+'_{}.txt'.format(j+1)
+				else:
+					xml_out = path+className[c_i]+'_{}.xml'.format(j+1)
 				if not os.path.isfile(xml_out):
 					os.rename(path+xmlN, xml_out)
 				
-
 		print('Rename folder:',f)
 
 	print('Rename complete!...\n')

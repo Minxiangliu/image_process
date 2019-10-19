@@ -6,7 +6,8 @@ import numpy as np
 import step_1
 import transferYOLO
 
-
+# Whether the dataSet is YOLO format 
+yolo = False
 # This line need to change your upper layer path of image folder.
 input_path = ''
 # This line is the output path after the data processing is completed.
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 			className.append(f.split('_DataSet')[0])
 	className = np.array(className , dtype=np.str)
 
-	step_1.file_Rename(DataSet_Folder, input_path, className)
+	step_1.file_Rename(DataSet_Folder, input_path, className, yolo=yolo)
 
 	output_dir = ['train','test','validation']
 	if os.path.isdir(output_path):
@@ -58,7 +59,7 @@ if __name__ == '__main__':
 
 	transferYOLO.transfer(split_rate=split_rate, 
 		input_path=input_path, output_path=output_path, 
-		DataSet_Folder=DataSet_Folder, className=className)
+		DataSet_Folder=DataSet_Folder, className=className, yolo=yolo)
 
 
 	with open(output_path+'cfg/'+cfg_obj_data, 'w') as the_file:
